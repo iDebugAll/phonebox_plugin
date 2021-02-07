@@ -3,7 +3,9 @@
 Telephone Number Management Plugin for [Netbox](https://github.com/netbox-community/netbox).
 
 >**IMPORTANT:** the plugin is currently under development.<br/>
-> It is not yet intended for production use. Major breaking changes are possible.
+>It is not yet intended for production use. Major breaking changes are possible.
+></br><br/>
+>The plugin only supports NetBox 2.10.0+ versions.
 
 ### Preview
 
