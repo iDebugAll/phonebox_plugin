@@ -1,0 +1,4 @@
+include README.md
+include LICENSE
+recursive-include phonebox_plugin/templates *
+recursive-include phonebox_plugin/static *
