@@ -32,6 +32,17 @@ A Number can optionally be tagged with Tags.<br/>
 <br/>
 The plugin supports Bulk Edit and Delete operations for Numbers.
 
+### Plugin API
+
+The plugin introduces a NetBox REST API extension `/api/plugins/phonebox/`.<br/>
+It currently supports all create, read, update, and delete operations for Numbers via `/api/plugins/phonebox/numbers/`.<br/>
+The API is compatible with [pynetbox](https://github.com/digitalocean/pynetbox):
+```
+>>> nb.plugins.phonebox.numbers.get(7)
+2000
+>>> 
+```
+
 # Installation
 
 General installation steps and considerations follow the [official guidelines](https://netbox.readthedocs.io/en/stable/plugins/).
