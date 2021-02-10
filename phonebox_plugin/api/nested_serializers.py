@@ -8,10 +8,11 @@ __all__ = ["NestedNumberSerializer", ]
 
 class NestedNumberSerializer(WritableNestedSerializer):
 
+    label = serializers.CharField(source='number', read_only=True)
     tenant = NestedTenantSerializer(required=True, allow_null=False)
 
     class Meta:
         model = models.Number
         fields = [
-            "id", "number", "tenant",
+            "id", "label", "number", "tenant",
         ]

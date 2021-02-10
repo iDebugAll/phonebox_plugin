@@ -10,6 +10,7 @@ from .nested_serializers import NestedNumberSerializer
 
 class NumberSerializer(TaggedObjectSerializer, serializers.ModelSerializer):
 
+    label = serializers.CharField(source='number', read_only=True)
     tenant = NestedTenantSerializer(required=True, allow_null=False)
     region = NestedRegionSerializer(required=False, allow_null=True)
     provider = NestedProviderSerializer(required=False, allow_null=True)
@@ -18,5 +19,5 @@ class NumberSerializer(TaggedObjectSerializer, serializers.ModelSerializer):
     class Meta:
         model = Number
         fields = [
-            "id", "number", "tenant", "region", "forward_to", "description", "provider", "tags",
+            "id", "label", "number", "tenant", "region", "forward_to", "description", "provider", "tags",
         ]
