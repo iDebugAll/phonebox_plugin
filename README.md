@@ -1,6 +1,6 @@
 # PhoneBox Plugin
 
-Telephone Number Management Plugin for [Netbox](https://github.com/netbox-community/netbox).
+A Telephone Number Management Plugin for [NetBox](https://github.com/netbox-community/netbox).
 
 >The plugin only supports NetBox 2.10.0+ versions.
 
@@ -10,6 +10,8 @@ Telephone Number Management Plugin for [Netbox](https://github.com/netbox-commun
 
 
 # Supported Features and Models
+
+### Numbers
 
 The plugin currently implements a Number abstraction representing a single telephone number of an arbitrary format.<br/>
 A Number can consist of valid DTMF characters and leading plus sign for E.164 support:
