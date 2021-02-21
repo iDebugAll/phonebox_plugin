@@ -60,6 +60,8 @@ class Number(ChangeLoggedModel):
 
     objects = RestrictedQuerySet.as_manager()
 
+    csv_headers = ['number', 'tenant', 'region', 'description', 'provider', 'forward_to']
+
     def __str__(self):
         return str(self.number)
 

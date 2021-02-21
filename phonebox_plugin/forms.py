@@ -1,7 +1,7 @@
 from django import forms
 from utilities.forms import (
     BootstrapMixin, DynamicModelMultipleChoiceField, DynamicModelChoiceField,
-    TagFilterField, BulkEditForm
+    TagFilterField, BulkEditForm, CSVModelForm, CSVModelChoiceField
 )
 from extras.forms import AddRemoveTagsForm
 from tenancy.models import Tenant
@@ -93,3 +93,36 @@ class NumberBulkEditForm(BootstrapMixin, AddRemoveTagsForm, BulkEditForm):
 
     class Meta:
         nullable_fields = ('region', 'provider', 'forward_to', 'description')
+
+
+class NumberCSVForm(CSVModelForm):
+    tenant = CSVModelChoiceField(
+        queryset=Tenant.objects.all(),
+        required=True,
+        to_field_name='name',
+        help_text='Assigned tenant'
+    )
+    provider = CSVModelChoiceField(
+        queryset=Provider.objects.all(),
+        to_field_name='name',
+        required=False,
+        help_text='Originating provider'
+    )
+    region = CSVModelChoiceField(
+        queryset=Region.objects.all(),
+        required=False,
+        to_field_name='name',
+        help_text='Assigned region'
+    )
+    forward_to = CSVModelChoiceField(
+        queryset=Number.objects.all(),
+        to_field_name="number",
+        required=False
+    )
+
+    class Meta:
+        model = Number
+        fields = Number.csv_headers
+        help_texts = {
+            'forward_to': "Optional call forwarding Number",
+        }

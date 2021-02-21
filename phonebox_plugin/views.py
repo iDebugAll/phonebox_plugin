@@ -42,3 +42,9 @@ class NumberBulkDeleteView(generic.BulkDeleteView):
     filterset = filters.NumberFilterSet
     table = tables.NumberTable
     default_return_url = "plugins:phonebox_plugin:list_view"
+
+
+class NumberBulkImportView(generic.BulkImportView):
+    queryset = Number.objects.all()
+    model_form = forms.NumberCSVForm
+    table = tables.NumberTable
