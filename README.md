@@ -85,6 +85,13 @@ The Plugin contains static files for topology visualization. They should be serv
 (venv) $ python3 manage.py collectstatic
 ```
 
+### Apply Database Migrations
+
+Apply database migrations with Django `manage.py`:
+```
+(venv) $ python3 manage.py migrate
+```
+
 ### Restart Netbox
 Restart the WSGI service to apply changes:
 ```
