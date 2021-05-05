@@ -18,7 +18,6 @@ class NumberListView(generic.ObjectListView):
 class NumberView(generic.ObjectView):
     queryset = Number.objects.prefetch_related('tenant')
 
-
 class NumberEditView(generic.ObjectEditView):
     queryset = Number.objects.all()
     model_form = forms.NumberEditForm
