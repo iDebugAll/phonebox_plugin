@@ -36,7 +36,6 @@
         {% endif %}
     </div>
     <h1>{% block title %}{{ object }}{% endblock %}</h1>
-    {% include 'inc/created_updated.html' %}
     <ul class="nav nav-tabs">
         <li role="presentation"{% if not active_tab %} class="active"{% endif %}>
             <a href="{{ object.get_absolute_url }}">Number</a>

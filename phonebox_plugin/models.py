@@ -1,5 +1,6 @@
 from django.db import models
-from extras.models import ChangeLoggedModel, TaggedItem
+from extras.models import TaggedItem
+from netbox.models import ChangeLoggedModel
 from utilities.querysets import RestrictedQuerySet
 from django.core.validators import RegexValidator
 from taggit.managers import TaggableManager

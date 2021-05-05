@@ -4,11 +4,11 @@ from ..models import Number
 from tenancy.api.nested_serializers import NestedTenantSerializer
 from dcim.api.nested_serializers import NestedRegionSerializer
 from circuits.api.nested_serializers import NestedProviderSerializer
-from extras.api.serializers import TaggedObjectSerializer
+from extras.api.serializers import TagSerializer
 from .nested_serializers import NestedNumberSerializer
 
 
-class NumberSerializer(TaggedObjectSerializer, serializers.ModelSerializer):
+class NumberSerializer(TagSerializer, serializers.ModelSerializer):
 
     label = serializers.CharField(source='number', read_only=True)
     tenant = NestedTenantSerializer(required=True, allow_null=False)
