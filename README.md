@@ -3,6 +3,7 @@
 A Telephone Number Management Plugin for [NetBox](https://github.com/netbox-community/netbox).
 
 >The plugin versions 0.0.1b1-0.0.1b4 support NetBox 2.10.x versions.
+>
 >Latest plugin version 0.0.1b5 supports NetBox 2.11.0+ versions
 
 ### Preview
