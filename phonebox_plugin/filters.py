@@ -1,9 +1,19 @@
 import django_filters
-from utilities.filters import BaseFilterSet, TagFilter
 from django.db.models import Q
 from dcim.models import Region
 from tenancy.models import Tenant
 from .models import Number
+from packaging import version
+from django.conf import settings
+
+NETBOX_CURRENT_VERSION = version.parse(settings.VERSION)
+
+if NETBOX_CURRENT_VERSION < version.parse("2.11.3"):
+    from utilities.filters import BaseFilterSet
+    from utilities.filters import TagFilter
+else:
+    from netbox.filtersets import BaseFilterSet
+    from extras.filters import TagFilter
 
 
 class NumberFilterSet(BaseFilterSet):
