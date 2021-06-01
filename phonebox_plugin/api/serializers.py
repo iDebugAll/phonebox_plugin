@@ -6,6 +6,7 @@ from dcim.api.nested_serializers import NestedRegionSerializer
 from circuits.api.nested_serializers import NestedProviderSerializer
 from extras.api.serializers import TagSerializer
 from .nested_serializers import NestedNumberSerializer
+from extras.api.nested_serializers import NestedTagSerializer
 
 
 class NumberSerializer(TagSerializer, serializers.ModelSerializer):
@@ -15,6 +16,7 @@ class NumberSerializer(TagSerializer, serializers.ModelSerializer):
     region = NestedRegionSerializer(required=False, allow_null=True)
     provider = NestedProviderSerializer(required=False, allow_null=True)
     forward_to = NestedNumberSerializer(required=False, allow_null=True)
+    tags = NestedTagSerializer(many=True, required=False)
 
     class Meta:
         model = Number
