@@ -1,5 +1,6 @@
 import django_filters
 from django.db.models import Q
+from circuits.models import Provider
 from dcim.models import Region
 from tenancy.models import Tenant
 from .models import Number
@@ -41,6 +42,12 @@ class NumberFilterSet(BaseFilterSet):
     region = django_filters.ModelMultipleChoiceFilter(
         queryset=Region.objects.all(),
         field_name='region__slug',
+        to_field_name='slug',
+        label='Region (slug)',
+    )
+    provider = django_filters.ModelMultipleChoiceFilter(
+        queryset=Provider.objects.all(),
+        field_name='provider__slug',
         to_field_name='slug',
         label='Region (slug)',
     )

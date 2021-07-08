@@ -30,6 +30,12 @@ class NumberFilterForm(BootstrapMixin, forms.Form):
         required=False,
         null_option='None',
     )
+    provider = DynamicModelMultipleChoiceField(
+        queryset=Provider.objects.all(),
+        to_field_name='slug',
+        required=False,
+        null_option='None',
+    )
     tag = TagFilterField(model)
 
 
