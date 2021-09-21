@@ -8,10 +8,11 @@ class NumberTable(BaseTable):
     pk = ToggleColumn()
     number = tables.LinkColumn()
     tenant = tables.LinkColumn()
+    site = tables.LinkColumn()
     region = tables.LinkColumn()
     provider = tables.LinkColumn()
     forward_to = tables.LinkColumn()
 
     class Meta(BaseTable.Meta):
         model = Number
-        fields = ('pk', 'number', 'tenant', 'region', 'description', 'provider', 'forward_to')
+        fields = ('pk', 'number', 'tenant', 'site', 'region', 'description', 'provider', 'forward_to')

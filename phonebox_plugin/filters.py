@@ -1,7 +1,7 @@
 import django_filters
 from django.db.models import Q
 from circuits.models import Provider
-from dcim.models import Region
+from dcim.models import Region, Site
 from tenancy.models import Tenant
 from .models import Number
 from packaging import version
@@ -39,6 +39,13 @@ class NumberFilterSet(BaseFilterSet):
         to_field_name='slug',
         label='Tenant (slug)',
     )
+    site = django_filters.ModelMultipleChoiceFilter(
+        queryset=Site.objects.all(),
+        field_name='site__slug',
+        to_field_name='slug',
+        label='Site (slug)',
+    )
+
     region = django_filters.ModelMultipleChoiceFilter(
         queryset=Region.objects.all(),
         field_name='region__slug',

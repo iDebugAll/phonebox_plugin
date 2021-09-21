@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base/layout.html' %}
 {% load buttons %}
 {% load static %}
 
@@ -64,6 +64,19 @@
                         {% endif %}
                     </td>
                 </tr>
+                    <td>Site</td>
+                    <td>
+                        {% if object.site %}
+                            {% if object.site.group %}
+                                <a href="{{ object.site.group.get_absolute_url }}">{{ object.site.group }}</a> /
+                            {% endif %}
+                            <a href="{{ object.site.get_absolute_url }}">{{ object.site }}</a>
+                        {% else %}
+                            <span class="text-muted">None</span>
+                        {% endif %}
+                    </td>
+                </tr>
+
                 <tr>
                     <td>Region</td>
                     <td>

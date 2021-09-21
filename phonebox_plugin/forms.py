@@ -5,7 +5,7 @@ from utilities.forms import (
 )
 from extras.forms import AddRemoveTagsForm
 from tenancy.models import Tenant
-from dcim.models import Region
+from dcim.models import Region, Site
 from circuits.models import Provider
 from extras.models import Tag
 from .models import Number
@@ -20,6 +20,12 @@ class NumberFilterForm(BootstrapMixin, forms.Form):
     )
     tenant = DynamicModelMultipleChoiceField(
         queryset=Tenant.objects.all(),
+        to_field_name='slug',
+        required=False,
+        null_option='None',
+    )
+    site = DynamicModelMultipleChoiceField(
+        queryset=Site.objects.all(),
         to_field_name='slug',
         required=False,
         null_option='None',
@@ -59,7 +65,7 @@ class NumberEditForm(BootstrapMixin, forms.ModelForm):
 
     class Meta:
         model = Number
-        fields = ('number', 'tenant', 'region', 'description', 'provider', 'forward_to', 'tags')
+        fields = ('number', 'tenant', 'site', 'region', 'description', 'provider', 'forward_to', 'tags')
 
 
 class NumberBulkEditForm(BootstrapMixin, AddRemoveTagsForm, BulkEditForm):
@@ -104,10 +110,17 @@ class NumberBulkEditForm(BootstrapMixin, AddRemoveTagsForm, BulkEditForm):
 class NumberCSVForm(CSVModelForm):
     tenant = CSVModelChoiceField(
         queryset=Tenant.objects.all(),
-        required=True,
+        required=False,
         to_field_name='name',
         help_text='Assigned tenant'
     )
+    site = CSVModelChoiceField(
+        queryset=Site.objects.all(),
+        required=False,
+        to_field_name='name',
+        help_text='Assigned site'
+    )
+
     provider = CSVModelChoiceField(
         queryset=Provider.objects.all(),
         to_field_name='name',

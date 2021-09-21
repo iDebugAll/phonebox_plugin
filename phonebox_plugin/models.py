@@ -32,8 +32,14 @@ class Number(ChangeLoggedModel):
     tenant = models.ForeignKey(
         to='tenancy.Tenant',
         on_delete=models.CASCADE,
-        blank=False,
-        null=False
+        blank=True,
+        null=True
+    )
+    site = models.ForeignKey(
+        to='dcim.Site',
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True
     )
     description = models.CharField(max_length=200, blank=True)
     provider = models.ForeignKey(
@@ -61,7 +67,7 @@ class Number(ChangeLoggedModel):
 
     objects = RestrictedQuerySet.as_manager()
 
-    csv_headers = ['number', 'tenant', 'region', 'description', 'provider', 'forward_to']
+    csv_headers = ['number', 'tenant', 'site', 'region', 'description', 'provider', 'forward_to']
 
     def __str__(self):
         return str(self.number)
@@ -69,5 +75,3 @@ class Number(ChangeLoggedModel):
     def get_absolute_url(self):
         return reverse("plugins:phonebox_plugin:number_view", kwargs={"pk": self.pk})
 
-    class Meta:
-        unique_together = ("number", "tenant",)
