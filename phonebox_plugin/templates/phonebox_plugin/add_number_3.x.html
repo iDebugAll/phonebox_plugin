@@ -1,0 +1,19 @@
+{% extends 'generic/object_edit.html' %}
+{% load static %}
+{% load form_helpers %}
+
+{% block form %}
+    <div class="panel panel-default">
+        <div class="panel-heading"><strong>Number</strong></div>
+        <div class="panel-body">
+            {% render_field form.number %}
+            {% render_field form.tenant %}
+            {% render_field form.region %}
+            {% render_field form.provider %}
+            {% render_field form.forward_to %}
+            {% render_field form.description %}
+            {% render_field form.tags %}
+        </div>
+    </div>
+
+{% endblock %}
