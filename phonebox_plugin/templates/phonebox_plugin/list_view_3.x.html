@@ -1,0 +1,45 @@
+{% extends 'base/layout.html' %}
+{% load buttons %}
+{% load static %}
+{% load plugins %}
+{% load helpers %}
+
+{% block content %}
+
+<div class="pull-right noprint">
+	{% if perms.phonebox_plugin.add_number %}
+		{% add_button 'plugins:phonebox_plugin:add_number' %}
+	{% endif %}
+	{% if permissions.add and 'import' in action_buttons %}
+		{% import_button 'plugins:phonebox_plugin:import_numbers' %}
+	{% endif %}
+</div>
+
+<ul class="nav nav-tabs px-3">
+	<li class="nav-item" role="presentation">
+	  <button class="nav-link active" id="numbers-tab" data-bs-toggle="tab" data-bs-target="#numbers" type="button" role="tab" aria-controls="numbers" aria-selected="true">
+		Numbers
+	  </button>
+	</li>
+	<li class="nav-item" role="presentation">
+	<button class="nav-link" id="filters-form-tab" data-bs-toggle="tab" data-bs-target="#filters-form" type="button" role="tab" aria-controls="filters-form" aria-selected="false">
+		Filters
+	</button>
+	</li>
+</ul>
+
+<div class="tab-content">
+	<div class="tab-pane active" id="numbers" role="tabpanel" aria-labelledby="numbers-tab">
+		<h2>{% block title %}Numbers{% endblock %}</h2>
+		<div class="row">
+			<div class="col-md-12">
+				{% include 'utilities/obj_table.html' with bulk_delete_url="plugins:phonebox_plugin:number_bulk_delete" bulk_edit_url="plugins:phonebox_plugin:number_bulk_edit" %}
+			</div>
+		</div>
+	</div>
+	<div class="tab-pane" id="filters-form" role="tabpanel" aria-labelledby="filters-form-tab">
+        {% include 'inc/filter_list.html' %}
+    </div>
+</div>
+
+{% endblock %}
