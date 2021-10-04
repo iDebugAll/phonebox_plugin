@@ -4,7 +4,8 @@
 {% load plugins %}
 {% load helpers %}
 
-{% block content %}
+
+{% block controls %}
 
 <div class="pull-right noprint">
 	{% if perms.phonebox_plugin.add_number %}
@@ -14,6 +15,11 @@
 		{% import_button 'plugins:phonebox_plugin:import_numbers' %}
 	{% endif %}
 </div>
+
+{% endblock %}
+
+
+{% block content %}
 
 <ul class="nav nav-tabs px-3">
 	<li class="nav-item" role="presentation">
