@@ -29,27 +29,23 @@ class NumberFilterSet(BaseFilterSet):
         to_field_name='number',
         label='number',
     )
-    tenant_id = django_filters.ModelMultipleChoiceFilter(
-        queryset=Tenant.objects.all(),
-        label='Tenant (ID)',
-    )
     tenant = django_filters.ModelMultipleChoiceFilter(
         queryset=Tenant.objects.all(),
-        field_name='tenant__slug',
-        to_field_name='slug',
-        label='Tenant (slug)',
+        field_name='tenant__id',
+        to_field_name='id',
+        label='Tenant (id)',
     )
     region = django_filters.ModelMultipleChoiceFilter(
         queryset=Region.objects.all(),
-        field_name='region__slug',
-        to_field_name='slug',
-        label='Region (slug)',
+        field_name='region__id',
+        to_field_name='id',
+        label='Region (id)',
     )
     provider = django_filters.ModelMultipleChoiceFilter(
         queryset=Provider.objects.all(),
-        field_name='provider__slug',
-        to_field_name='slug',
-        label='Region (slug)',
+        field_name='provider__id',
+        to_field_name='id',
+        label='Region (id)',
     )
     forward_to = django_filters.ModelMultipleChoiceFilter(
         field_name='forward_to',

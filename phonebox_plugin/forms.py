@@ -20,19 +20,19 @@ class NumberFilterForm(BootstrapMixin, forms.Form):
     )
     tenant = DynamicModelMultipleChoiceField(
         queryset=Tenant.objects.all(),
-        to_field_name='slug',
+        to_field_name='id',
         required=False,
         null_option='None',
     )
     region = DynamicModelMultipleChoiceField(
         queryset=Region.objects.all(),
-        to_field_name='slug',
+        to_field_name='id',
         required=False,
         null_option='None',
     )
     provider = DynamicModelMultipleChoiceField(
         queryset=Provider.objects.all(),
-        to_field_name='slug',
+        to_field_name='id',
         required=False,
         null_option='None',
     )
@@ -70,19 +70,19 @@ class NumberBulkEditForm(BootstrapMixin, AddRemoveTagsForm, BulkEditForm):
     )
     tenant = DynamicModelChoiceField(
         queryset=Tenant.objects.all(),
-        to_field_name='slug',
+        to_field_name='id',
         required=False,
         null_option='None',
     )
     region = DynamicModelChoiceField(
         queryset=Region.objects.all(),
-        to_field_name='slug',
+        to_field_name='id',
         required=False,
         null_option='None',
     )
     provider = DynamicModelChoiceField(
         queryset=Provider.objects.all(),
-        to_field_name='slug',
+        to_field_name='id',
         required=False,
         null_option='None',
     )
