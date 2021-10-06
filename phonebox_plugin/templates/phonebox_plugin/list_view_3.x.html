@@ -37,6 +37,12 @@
 
 <div class="tab-content">
 	<div class="tab-pane active" id="numbers" role="tabpanel" aria-labelledby="numbers-tab">
+		
+		{# Applied filters #}
+		{% if filter_form %}
+		  {% applied_filters filter_form request.GET %}
+		{% endif %}
+		
 		<h2>{% block title %}Numbers{% endblock %}</h2>
 		<div class="row">
 			<div class="col-md-12">
