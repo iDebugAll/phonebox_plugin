@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load buttons %}
+
+{% block content %}
+<div class="pull-right noprint">
+	{% if perms.phonebox_plugin.add_voice_circuit %}
+		{% add_button 'plugins:phonebox_plugin:add_voice_circuit' %}
+	{% endif %}
+	{% if permissions.add and 'import' in action_buttons %}
+        {% import_button 'plugins:phonebox_plugin:import_voice_circuits' %}
+    {% endif %}
+</div>
+<h1>{% block title %}Numbers{% endblock %}</h1>
+<div class="row">
+	<div class="col-md-9">
+        {% include 'utilities/obj_table.html' with bulk_delete_url="plugins:phonebox_plugin:voice_circuit_bulk_delete" bulk_edit_url="plugins:phonebox_plugin:voice_circuit_bulk_edit" %}
+    </div>
+	<div class="col-md-3 noprint">
+		{% include 'inc/search_panel.html' %}
+	</div>
+</div>
+{% endblock %}

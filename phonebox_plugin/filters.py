@@ -1,9 +1,9 @@
 import django_filters
 from django.db.models import Q
 from circuits.models import Provider
-from dcim.models import Region
+from dcim.models import Region, Site
 from tenancy.models import Tenant
-from .models import Number
+from .models import Number, VoiceCircuit
 from packaging import version
 from django.conf import settings
 
@@ -64,4 +64,54 @@ class NumberFilterSet(BaseFilterSet):
             return queryset
         return queryset.filter(
             Q(number__icontains=value)
+        )
+
+
+class VoiceCircuitFilterSet(BaseFilterSet):
+
+    q = django_filters.CharFilter(
+        method='search',
+        label='Search',
+    )
+    name = django_filters.ModelMultipleChoiceFilter(
+        field_name='name',
+        queryset=VoiceCircuit.objects.all(),
+        to_field_name='name',
+        label='name',
+    )
+    tenant = django_filters.ModelMultipleChoiceFilter(
+        queryset=Tenant.objects.all(),
+        field_name='tenant__id',
+        to_field_name='id',
+        label='Tenant (id)',
+    )
+    site = django_filters.ModelMultipleChoiceFilter(
+        queryset=Site.objects.all(),
+        field_name='site__id',
+        to_field_name='id',
+        label='Site (id)',
+    )
+    region = django_filters.ModelMultipleChoiceFilter(
+        queryset=Region.objects.all(),
+        field_name='region__id',
+        to_field_name='id',
+        label='Region (id)',
+    )
+    provider = django_filters.ModelMultipleChoiceFilter(
+        queryset=Provider.objects.all(),
+        field_name='provider__id',
+        to_field_name='id',
+        label='Provider (id)',
+    )
+    tag = TagFilter()
+
+    class Meta():
+        model = VoiceCircuit
+        fields = ('name',)
+
+    def search(self, queryset, name, value):
+        if not value.strip():
+            return queryset
+        return queryset.filter(
+            Q(name__icontains=value)
         )
