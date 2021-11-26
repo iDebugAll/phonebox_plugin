@@ -1,11 +1,13 @@
 from django.db import models
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from extras.models import TaggedItem
 from netbox.models import ChangeLoggedModel
 from utilities.querysets import RestrictedQuerySet
-from utilities.choices import ChoiceSet
 from django.core.validators import RegexValidator
 from taggit.managers import TaggableManager
 from django.urls import reverse
+from .choices import VoiceCircuitTypeChoices, VOICE_CIRCUIT_ASSIGNMENT_MODELS
 
 number_validator = RegexValidator(
     r"^\+?[0-9A-D\#\*]*$",
@@ -80,21 +82,13 @@ class VoiceCircuit(ChangeLoggedModel):
     - Digital Voice Circuit (BRI/PRI/etc).
     - Analog Voice Circuit (CO lines).
     """
-    class VoiceCircuitTypeChoices(ChoiceSet):
-        SIP_TRUNK = 'sip_trunk'
-        DIGITAL_VOICE_CIRCUIT = 'digital_voice_circuit'
-        ANALOG_VOICE_CIRCUIT = 'analog_voice_circuit'
-        CHOICES = (
-            (SIP_TRUNK, 'SIP Trunk'),
-            (DIGITAL_VOICE_CIRCUIT, 'Digital Voice Circuit'),
-            (ANALOG_VOICE_CIRCUIT, 'Analog Voice Circuit'),
-        )
+
     name = models.CharField(max_length=32)
     tenant = models.ForeignKey(
         to='tenancy.Tenant',
         on_delete=models.CASCADE,
-        blank=False,
-        null=False
+        blank=True,
+        null=True
     )
     description = models.CharField(max_length=200, blank=True)
     voice_circuit_type = models.CharField(
@@ -108,6 +102,10 @@ class VoiceCircuit(ChangeLoggedModel):
         blank=True,
         null=True,
         related_name="vc_provider_set"
+    )
+    provider_circuit_id = models.CharField(
+        max_length=50,
+        blank=True
     )
     region = models.ForeignKey(
         to="dcim.Region",
@@ -124,6 +122,32 @@ class VoiceCircuit(ChangeLoggedModel):
         related_name="vc_site_set"
     )
     tags = TaggableManager(through=TaggedItem)
+
+    sip_source = models.CharField(
+        max_length=255,
+        blank=True
+    )
+    sip_target = models.CharField(
+        max_length=255,
+        blank=True
+    )
+
+    assigned_object_type = models.ForeignKey(
+        to=ContentType,
+        limit_choices_to=VOICE_CIRCUIT_ASSIGNMENT_MODELS,
+        on_delete=models.PROTECT,
+        related_name='+',
+        blank=True,
+        null=True
+    )
+    assigned_object_id = models.PositiveIntegerField(
+        blank=True,
+        null=True
+    )
+    assigned_object = GenericForeignKey(
+        ct_field='assigned_object_type',
+        fk_field='assigned_object_id'
+    )
 
     objects = RestrictedQuerySet.as_manager()
 

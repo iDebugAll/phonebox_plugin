@@ -5,10 +5,12 @@ from utilities.forms import (
 )
 from extras.forms import AddRemoveTagsForm
 from tenancy.models import Tenant
-from dcim.models import Region, Site
+from dcim.models import Region, Site, Device, Interface
+from virtualization.models import VirtualMachine, VMInterface
 from circuits.models import Provider
 from extras.models import Tag
 from .models import Number, VoiceCircuit
+from .choices import VoiceCircuitTypeChoices
 
 
 class NumberFilterForm(BootstrapMixin, forms.Form):
@@ -139,14 +141,78 @@ class VoiceCircuitEditForm(BootstrapMixin, forms.ModelForm):
     name = forms.CharField(
         required=True,
     )
+    voice_circuit_type = forms.ChoiceField(
+        choices=VoiceCircuitTypeChoices,
+        widget=forms.Select(attrs={"onChange": 'ShowVCTypeRelatedDetails();'})
+    )
+    device = DynamicModelChoiceField(
+        queryset=Device.objects.all(),
+        required=False,
+        initial_params={
+            'interfaces': '$interface'
+        }
+    )
+    interface = DynamicModelChoiceField(
+        queryset=Interface.objects.all(),
+        required=False,
+        query_params={
+            'device_id': '$device'
+        }
+    )
+    virtual_machine = DynamicModelChoiceField(
+        queryset=VirtualMachine.objects.all(),
+        required=False,
+        initial_params={
+            'interfaces': '$vminterface'
+        }
+    )
+    vminterface = DynamicModelChoiceField(
+        queryset=VMInterface.objects.all(),
+        required=False,
+        label='Interface',
+        query_params={
+            'virtual_machine_id': '$virtual_machine'
+        }
+    )
     tags = DynamicModelMultipleChoiceField(
         queryset=Tag.objects.all(),
         required=False
     )
 
+    class Media:
+        js = ('phonebox_plugin/js/edit_virtual_circuit.js',)
+
     class Meta:
         model = VoiceCircuit
-        fields = ('name', 'voice_circuit_type', 'tenant', 'region', 'site', 'description', 'provider', 'tags')
+        fields = (
+            'name', 'voice_circuit_type', 'tenant', 'region', 'site',
+            'description', 'provider', 'provider_circuit_id', 'tags',
+            'sip_source', 'sip_target'
+        )
+
+    def __init__(self, *args, **kwargs):
+
+        # Initialize helper selectors
+        instance = kwargs.get('instance')
+        initial = kwargs.get('initial', {}).copy()
+        if instance:
+            if type(instance.assigned_object) is Interface:
+                initial['interface'] = instance.assigned_object
+            elif type(instance.assigned_object) is VMInterface:
+                initial['vminterface'] = instance.assigned_object
+
+        kwargs['initial'] = initial
+        super().__init__(*args, **kwargs)
+
+    def clean(self):
+        super().clean()
+
+        # Cannot select both a device interface and a VM interface
+        if self.cleaned_data.get('interface') and self.cleaned_data.get('vminterface'):
+            raise forms.ValidationError("Cannot select both a device interface and a virtual machine interface")
+        if not (self.cleaned_data.get('interface') or self.cleaned_data.get('vminterface')):
+            raise forms.ValidationError("Voice Circuit must be attached to a device interface or a VM interface")
+        self.instance.assigned_object = self.cleaned_data.get('interface') or self.cleaned_data.get('vminterface')
 
 
 class VoiceCircuitFilterForm(BootstrapMixin, forms.Form):

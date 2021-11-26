@@ -21,6 +21,12 @@ class VoiceCircuitTable(BaseTable):
 
     pk = ToggleColumn()
     name = tables.LinkColumn()
+    voice_device_or_vm = tables.Column(
+        accessor='assigned_object.parent_object',
+        linkify=True,
+        orderable=False,
+        verbose_name='Device/VM'
+    )
     voice_circuit_type = tables.LinkColumn()
     tenant = tables.LinkColumn()
     region = tables.LinkColumn()
@@ -29,4 +35,4 @@ class VoiceCircuitTable(BaseTable):
 
     class Meta(BaseTable.Meta):
         model = VoiceCircuit
-        fields = ('pk', 'name', 'voice_circuit_type', 'tenant', 'region', 'site', 'provider')
+        fields = ('pk', 'name', 'voice_device_or_vm', 'voice_circuit_type', 'tenant', 'region', 'site', 'provider')

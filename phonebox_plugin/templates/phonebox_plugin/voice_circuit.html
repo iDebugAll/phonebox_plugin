@@ -52,8 +52,19 @@
             </div>
             <table class="table table-hover panel-body attr-table">
                 <tr>
-                    <td>Voice Circuit Type</td>
+                    <td>Type</td>
                     <td>{{ object.voice_circuit_type }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Assignment</th>
+                    <td>
+                        {% if object.assigned_object %}
+                            <a href="{{ object.assigned_object.parent_object.get_absolute_url }}">{{ object.assigned_object.parent_object }}</a> /
+                            <a href="{{ object.assigned_object.get_absolute_url }}">{{ object.assigned_object }}
+                        {% else %}
+                            <span class="text-muted">&mdash;</span>
+                        {% endif %}
+                    </td>
                 </tr>
                 <tr>
                     <td>Tenant</td>
@@ -106,6 +117,45 @@
         </div>
         {% include 'extras/inc/tags_panel.html' with tags=object.tags.all url='plugins:phonebox_plugin:list_view' %}
     </div>
+</div>
+
+{% if object.voice_circuit_type == "sip_trunk" %}
+        <div class="col col-md-4">
+            <div class="panel panel-default">
+                <h5 class="panel-heading">
+                    SIP Trunk Details
+                </h5>
+                <table class="table table-hover panel-body attr-table">
+                    <tr>
+                        <td>Source</td>
+                        <td>{{ object.sip_source }}</td>
+                    </tr>
+                    <tr>
+                        <td>Target</td>
+                        <td>{{ object.sip_target }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+    {% if object.voice_circuit_type == "digital_voice_circuit" %}
+        <div class="col col-md-4">
+            <div class="panel panel-default">
+                <h5 class="panel-heading">
+                    Digital Voice Circuit Details
+                </h5>
+            </div>
+        </div>
+    {% endif %}
+    {% if object.voice_circuit_type == "analog_voice_circuit" %}
+        <div class="col col-md-4">
+            <div class="panel panel-default">
+                <h5 class="panel-heading">
+                    Analog Voice Circuit Details
+                </h5>
+            </div>
+        </div>
+    {% endif %}
 </div>
 
 {% endblock %}
