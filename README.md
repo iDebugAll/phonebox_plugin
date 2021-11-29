@@ -1,6 +1,6 @@
 # PhoneBox Plugin
 
-A Telephone Number Management Plugin for [NetBox](https://github.com/netbox-community/netbox).
+A Telephone Number Management Plugin for [NetBox](https://github.com/netbox-community/netbox) and more.
 
 >The plugin versions 0.0.1b1-0.0.1b4 support NetBox 2.10.x versions.
 >
@@ -34,6 +34,16 @@ A Number can contain an optional Description.<br/>
 A Number can optionally be tagged with Tags.<br/>
 <br/>
 The plugin supports Bulk Edit and Delete operations for Numbers.
+
+### Voice Circuits
+
+Voice Circuit is an entity on a voice-enabled device representing a physical or virtual connection to another voice-enabled device.
+The plugin supports the following voice circuit types:
+- SIP Trunk.
+- Digital Voice Circuit (PRI/BRI/etc).
+- Analog Voice Circuit (CO lines/etc).
+
+A Voice Circuit must be assigned to an interface of a Device or Virtual Machine.
 
 ### Plugin API
 
