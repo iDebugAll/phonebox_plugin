@@ -1,6 +1,6 @@
 # PhoneBox Plugin
 
-A Telephone Number Management Plugin for [NetBox](https://github.com/netbox-community/netbox).
+A Telephone Number Management Plugin for [NetBox](https://github.com/netbox-community/netbox) and more.
 
 >The plugin versions 0.0.1b1-0.0.1b4 support NetBox 2.10.x versions.
 >
