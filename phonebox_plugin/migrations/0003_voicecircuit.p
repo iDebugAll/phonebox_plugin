@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
                 ('created', models.DateField(auto_now_add=True, null=True)),
                 ('last_updated', models.DateTimeField(auto_now=True, null=True)),
                 ('id', models.BigAutoField(primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=32)),
+                ('name', models.CharField(max_length=64)),
                 ('description', models.CharField(blank=True, max_length=200)),
                 ('voice_circuit_type', models.CharField(max_length=50)),
                 ('provider_circuit_id', models.CharField(blank=True, max_length=50)),

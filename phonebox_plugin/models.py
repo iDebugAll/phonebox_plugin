@@ -83,7 +83,7 @@ class VoiceCircuit(ChangeLoggedModel):
     - Analog Voice Circuit (CO lines).
     """
 
-    name = models.CharField(max_length=32)
+    name = models.CharField(max_length=64)
     tenant = models.ForeignKey(
         to='tenancy.Tenant',
         on_delete=models.CASCADE,
