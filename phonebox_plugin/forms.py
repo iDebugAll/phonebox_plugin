@@ -283,6 +283,7 @@ class VoiceCircuitBulkEditForm(BootstrapMixin, AddRemoveTagsForm, BulkEditForm):
 
 
 class VoiceCircuitCSVForm(CSVModelForm):
+
     tenant = CSVModelChoiceField(
         queryset=Tenant.objects.all(),
         required=True,
@@ -307,7 +308,29 @@ class VoiceCircuitCSVForm(CSVModelForm):
         to_field_name='name',
         help_text='Assigned region'
     )
+    device = CSVModelChoiceField(
+        queryset=Device.objects.all(),
+        required=False,
+        to_field_name='name',
+        help_text='Parent device of assigned interface (if any)'
+    )
+    virtual_machine = CSVModelChoiceField(
+        queryset=VirtualMachine.objects.all(),
+        required=False,
+        to_field_name='name',
+        help_text='Parent VM of assigned interface (if any)'
+    )
+    interface = CSVModelChoiceField(
+        queryset=Interface.objects.none(),  # Can also refer to VMInterface
+        required=True,
+        to_field_name='name',
+        help_text='Assigned interface'
+    )
 
     class Meta:
         model = VoiceCircuit
-        fields = VoiceCircuit.csv_headers
+        fields = [
+            'name', 'voice_circuit_type', 'tenant', 'region', 'site',
+            'description', 'provider', 'provider_circuit_id', 'device',
+            'virtual_machine', 'interface',
+        ]
