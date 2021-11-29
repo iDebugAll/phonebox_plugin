@@ -1,0 +1,86 @@
+{% extends 'generic/object_edit.html' %}
+{% load static %}
+{% load form_helpers %}
+
+
+{% block header %}
+    {{ block.super }}
+    <script type="text/javascript">
+        function ShowVCTypeRelatedDetails() {
+            if(document.getElementById('id_voice_circuit_type').options[document.getElementById('id_voice_circuit_type').selectedIndex].value == "sip_trunk") {
+                document.getElementById('SIPTRunkDetails').style.display = '';
+                document.getElementById('DigitalVCDetails').style.display = 'none';
+                document.getElementById('AnalogVCDetails').style.display = 'none';
+            } else if (document.getElementById('id_voice_circuit_type').options[document.getElementById('id_voice_circuit_type').selectedIndex].value == "digital_voice_circuit") {
+                document.getElementById('SIPTRunkDetails').style.display = 'none';
+                document.getElementById('DigitalVCDetails').style.display = '';
+                document.getElementById('AnalogVCDetails').style.display = 'none';
+            } else if (document.getElementById('id_voice_circuit_type').options[document.getElementById('id_voice_circuit_type').selectedIndex].value == "analog_voice_circuit") {
+                document.getElementById('SIPTRunkDetails').style.display = 'none';
+                document.getElementById('DigitalVCDetails').style.display = 'none';
+                document.getElementById('AnalogVCDetails').style.display = '';
+            } else {
+                document.getElementById('SIPTRunkDetails').style.display = 'none';
+                document.getElementById('DigitalVCDetails').style.display = 'none';
+                document.getElementById('AnalogVCDetails').style.display = 'none';
+            }
+        }
+    </script>
+{% endblock %}
+
+
+{% block form %}
+
+    <div class="panel panel-default">
+        <div class="panel-heading"><strong>Voice Circuit</strong></div>
+        <div class="panel-body">
+            {% render_field form.name %}
+            {% render_field form.voice_circuit_type %}
+            {% render_field form.tenant %}
+            {% render_field form.site %}
+            {% render_field form.region %}
+            {% render_field form.provider %}
+            {% render_field form.provider_circuit_id %}
+            {% render_field form.description %}
+            {% render_field form.tags %}
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Interface Assignment</strong>
+            </div>
+            <div class="panel-body">
+                {% with vm_tab_active=form.initial.vminterface %}
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation"{% if not vm_tab_active %} class="active"{% endif %}><a href="#device" role="tab" data-toggle="tab">Device</a></li>
+                        <li role="presentation"{% if vm_tab_active %} class="active"{% endif %}><a href="#virtualmachine" role="tab" data-toggle="tab">Virtual Machine</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane{% if not vm_tab_active %} active{% endif %}" id="device">
+                            {% render_field form.device %}
+                            {% render_field form.interface %}
+                        </div>
+                        <div class="tab-pane{% if vm_tab_active %} active{% endif %}" id="virtualmachine">
+                            {% render_field form.virtual_machine %}
+                            {% render_field form.vminterface %}
+                        </div>
+                    </div>
+                {% endwith %}
+                {% render_field form.primary_for_parent %}
+            </div>
+        </div>
+        <div id="SIPTRunkDetails" class="panel panel-default">
+            <div class="panel-heading">
+                <strong>SIP Trunk Details</strong>
+            </div>
+            <div class="panel-body">
+                {% render_field form.sip_source %}
+                {% render_field form.sip_target %}
+            </div>
+        </div>
+        <div id="DigitalVCDetails" class="panel panel-default" style="display: none;">
+        </div>
+        <div id="AnalogVCDetails" class="panel panel-default" style="display: none;">
+        </div>
+    </div>
+
+{% endblock %}

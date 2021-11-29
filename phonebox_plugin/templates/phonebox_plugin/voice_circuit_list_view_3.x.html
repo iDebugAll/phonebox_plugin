@@ -1,0 +1,58 @@
+{% extends 'base/layout.html' %}
+{% load buttons %}
+{% load static %}
+{% load plugins %}
+{% load helpers %}
+
+
+{% block controls %}
+
+<div class="pull-right noprint">
+	{% if perms.phonebox_plugin.add_voice_circuit %}
+		{% add_button 'plugins:phonebox_plugin:add_voice_circuit' %}
+	{% endif %}
+	{% if permissions.add and 'import' in action_buttons %}
+		{% import_button 'plugins:phonebox_plugin:import_voice_circuits' %}
+	{% endif %}
+</div>
+
+{% endblock %}
+
+
+{% block content %}
+
+<ul class="nav nav-tabs px-3">
+	<li class="nav-item" role="presentation">
+	  <button class="nav-link active" id="voice_circuits-tab" data-bs-toggle="tab" data-bs-target="#voice_circuits" type="button" role="tab" aria-controls="voice_circuits" aria-selected="true">
+		Voice Circuits
+	  </button>
+	</li>
+	<li class="nav-item" role="presentation">
+	<button class="nav-link" id="filters-form-tab" data-bs-toggle="tab" data-bs-target="#filters-form" type="button" role="tab" aria-controls="filters-form" aria-selected="false">
+		Filters
+		{% if filter_form %}{% badge filter_form.changed_data|length bg_class="primary" %}{% endif %}
+	</button>
+	</li>
+</ul>
+
+<div class="tab-content">
+	<div class="tab-pane active" id="voice_circuits" role="tabpanel" aria-labelledby="voice_circuits-tab">
+		
+		{# Applied filters #}
+		{% if filter_form %}
+		  {% applied_filters filter_form request.GET %}
+		{% endif %}
+		
+		<h2>{% block title %}Voice Circuits{% endblock %}</h2>
+		<div class="row">
+			<div class="col-md-12">
+				{% include 'utilities/obj_table.html' with bulk_delete_url="plugins:phonebox_plugin:voice_circuit_bulk_delete" bulk_edit_url="plugins:phonebox_plugin:voice_circuit_bulk_edit" %}
+			</div>
+		</div>
+	</div>
+	<div class="tab-pane" id="filters-form" role="tabpanel" aria-labelledby="filters-form-tab">
+        {% include 'inc/filter_list.html' %}
+    </div>
+</div>
+
+{% endblock %}

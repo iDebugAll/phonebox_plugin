@@ -6,4 +6,9 @@ menu_items = (
         link_text='Numbers',
         buttons=()
     ),
+    PluginMenuItem(
+        link='plugins:phonebox_plugin:voice_circuit_list_view',
+        link_text='Voice Circuits',
+        buttons=()
+    ),
 )

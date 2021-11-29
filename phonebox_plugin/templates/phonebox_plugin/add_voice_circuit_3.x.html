@@ -1,0 +1,109 @@
+{% extends 'generic/object_edit.html' %}
+{% load static %}
+{% load form_helpers %}
+
+{% block head %}
+    {{ block.super }}
+    <script type="text/javascript">
+        function ShowVCTypeRelatedDetails() {
+            if(document.getElementById('id_voice_circuit_type').options[document.getElementById('id_voice_circuit_type').selectedIndex].value == "sip_trunk") {
+                document.getElementById('SIPTRunkDetails').style.display = '';
+                document.getElementById('DigitalVCDetails').style.display = 'none';
+                document.getElementById('AnalogVCDetails').style.display = 'none';
+            } else if (document.getElementById('id_voice_circuit_type').options[document.getElementById('id_voice_circuit_type').selectedIndex].value == "digital_voice_circuit") {
+                document.getElementById('SIPTRunkDetails').style.display = 'none';
+                document.getElementById('DigitalVCDetails').style.display = '';
+                document.getElementById('AnalogVCDetails').style.display = 'none';
+            } else if (document.getElementById('id_voice_circuit_type').options[document.getElementById('id_voice_circuit_type').selectedIndex].value == "analog_voice_circuit") {
+                document.getElementById('SIPTRunkDetails').style.display = 'none';
+                document.getElementById('DigitalVCDetails').style.display = 'none';
+                document.getElementById('AnalogVCDetails').style.display = '';
+            } else {
+                document.getElementById('SIPTRunkDetails').style.display = 'none';
+                document.getElementById('DigitalVCDetails').style.display = 'none';
+                document.getElementById('AnalogVCDetails').style.display = 'none';
+            }
+        }
+    </script>
+{% endblock %}
+
+{% block form %}
+
+    <div class="panel panel-default">
+        <div class="panel-heading"><strong>Voice Circuit</strong></div>
+        <div class="panel-body">
+            {% render_field form.name %}
+            {% render_field form.voice_circuit_type %}
+            {% render_field form.tenant %}
+            {% render_field form.site %}
+            {% render_field form.region %}
+            {% render_field form.provider %}
+            {% render_field form.provider_circuit_id %}
+            {% render_field form.description %}
+            {% render_field form.tags %}
+        </div>
+        <div class="field-group my-5">
+            <div class="row mb-2">
+              <h5 class="offset-sm-3">Interface Assignment</h5>
+            </div>
+            {% with vm_tab_active=form.initial.vminterface %}
+              <div class="row mb-2">
+                <div class="offset-sm-3">
+                  <ul class="nav nav-pills" role="tablist">
+                    <li role="presentation" class="nav-item">
+                        <button
+                            role="tab"
+                            type="button"
+                            id="device_tab"
+                            data-bs-toggle="tab"
+                            aria-controls="device"
+                            data-bs-target="#device"
+                            class="nav-link {% if not vm_tab_active %}active{% endif %}"
+                        >
+                            Device
+                        </button>
+                    </li>
+                    <li role="presentation" class="nav-item">
+                        <button
+                            role="tab"
+                            type="button"
+                            id="vm_tab"
+                            data-bs-toggle="tab"
+                            aria-controls="vm"
+                            data-bs-target="#vm"
+                            class="nav-link {% if vm_tab_active %}active{% endif %}"
+                        >
+                            Virtual Machine
+                        </button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="tab-content p-0 border-0">
+                <div class="tab-pane {% if not vm_tab_active %}active{% endif %}" id="device" role="tabpanel" aria-labeled-by="device_tab">
+                  {% render_field form.device %}
+                  {% render_field form.interface %}
+                </div>
+                <div class="tab-pane {% if vm_tab_active %}active{% endif %}" id="vm" role="tabpanel" aria-labeled-by="vm_tab">
+                  {% render_field form.virtual_machine %}
+                  {% render_field form.vminterface %}
+                </div>
+              </div>
+            {% endwith %}
+        </div>
+        <div id="SIPTRunkDetails" class="panel panel-default">
+            <div class="panel-heading">
+                <strong>SIP Trunk Details</strong>
+            </div>
+            <div class="panel-body">
+                {% render_field form.sip_source %}
+                {% render_field form.sip_target %}
+            </div>
+        </div>
+        <div id="DigitalVCDetails" class="panel panel-default" style="display: none;">
+        </div>
+        <div id="AnalogVCDetails" class="panel panel-default" style="display: none;">
+        </div>
+    </div>
+
+{% endblock %}
