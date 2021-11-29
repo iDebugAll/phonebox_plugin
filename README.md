@@ -35,6 +35,16 @@ A Number can optionally be tagged with Tags.<br/>
 <br/>
 The plugin supports Bulk Edit and Delete operations for Numbers.
 
+### Voice Circuits
+
+Voice Circuit is an entity on a voice-enabled device representing a physical or virtual connection to another voice-enabled device.
+The plugin supports the following voice circuit types:
+- SIP Trunk.
+- Digital Voice Circuit (PRI/BRI/etc).
+- Analog Voice Circuit (CO lines/etc).
+
+A Voice Circuit must be assigned to an interface of a Device or Virtual Machine.
+
 ### Plugin API
 
 The plugin introduces a NetBox REST API extension `/api/plugins/phonebox/`.<br/>
