@@ -26,12 +26,12 @@
             <h3>{{ object }}</h3>
         </div>
         <div class="col-sm-4 col-md-3">
-            {% if perms.phonebox_plugin.change_voice_circuit %}
+            {% if perms.phonebox_plugin.change_voicecircuit %}
                 <a href="{% url 'plugins:phonebox_plugin:voice_circuit_edit' pk=object.pk %}" class="btn btn-sm btn-warning">
                     <span class="mdi mdi-pencil" aria-hidden="true"></span> Edit
                 </a>
             {% endif %}
-            {% if perms.phonebox_plugin.delete_voice_circuit %}
+            {% if perms.phonebox_plugin.delete_voicecircuit %}
                 <a href="{% url 'plugins:phonebox_plugin:voice_circuit_delete' pk=object.pk %}" class="btn btn-sm btn-danger">
                     <span class="mdi mdi-trash-can-outline" aria-hidden="true"></span> Delete
                 </a>
