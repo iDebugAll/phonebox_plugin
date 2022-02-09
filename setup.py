@@ -7,9 +7,9 @@ with open(path.join(top_level_directory, 'README.md'), encoding='utf-8') as file
 
 setup(
     name='phonebox_plugin',
-    version='v0.0.3-beta.7',
+    version='v0.0.3-beta.8',
     url='https://github.com/iDebugAll/phonebox-plugin.git',
-    download_url='https://github.com/iDebugAll/phonebox-plugin/archive/v0.0.3-beta.7.tar.gz',
+    download_url='https://github.com/iDebugAll/phonebox-plugin/archive/v0.0.3-beta.8.tar.gz',
     description='A phone numbers management plugin for NetBox.',
     long_description=long_description,
     long_description_content_type='text/markdown',
