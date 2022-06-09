@@ -1,7 +1,7 @@
 {% load helpers %}
 {% load render_table from django_tables2 %}
 
-{% if permissions.change or permissions.delete %}
+{% if perms.phonebox_plugin.change or perms.phonebox_plugin.delete %}
     <form method="post" class="form form-horizontal">
         {% csrf_token %}
         <input type="hidden" name="return_url" value="{% if return_url %}{{ return_url }}{% else %}{{ request.path }}{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}{% endif %}" />
@@ -38,13 +38,13 @@
         <div class="float-start noprint">
             {% block extra_actions %}{% endblock %}
 
-            {% if bulk_edit_url and permissions.change %}
+            {% if bulk_edit_url and perms.phonebox_plugin.change %}
                 <button type="submit" name="_edit" formaction="{% url bulk_edit_url %}{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}" class="btn btn-warning btn-sm">
                     <i class="mdi mdi-pencil" aria-hidden="true"></i> Edit Selected
                 </button>
             {% endif %}
 
-            {% if bulk_delete_url and permissions.delete %}
+            {% if bulk_delete_url and perms.phonebox_plugin.delete %}
                 <button type="submit" name="_delete" formaction="{% url bulk_delete_url %}{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}" class="btn btn-danger btn-sm">
                     <i class="mdi mdi-trash-can-outline" aria-hidden="true"></i> Delete Selected
                 </button>

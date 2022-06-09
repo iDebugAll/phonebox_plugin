@@ -3,7 +3,6 @@ from utilities.forms import (
     BootstrapMixin, DynamicModelMultipleChoiceField, DynamicModelChoiceField,
     TagFilterField, BulkEditForm, CSVModelForm, CSVModelChoiceField
 )
-from extras.forms import AddRemoveTagsForm
 from tenancy.models import Tenant
 from dcim.models import Region, Site, Device, Interface
 from virtualization.models import VirtualMachine, VMInterface
@@ -13,7 +12,23 @@ from .models import Number, VoiceCircuit
 from .choices import VoiceCircuitTypeChoices
 
 
-class NumberFilterForm(BootstrapMixin, forms.Form):
+class AddRemoveTagsForm(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Add add/remove tags fields
+        self.fields['add_tags'] = DynamicModelMultipleChoiceField(
+            queryset=Tag.objects.all(),
+            required=False
+        )
+        self.fields['remove_tags'] = DynamicModelMultipleChoiceField(
+            queryset=Tag.objects.all(),
+            required=False
+        )
+
+
+class NumberFilterForm(forms.Form):
 
     model = Number
     q = forms.CharField(
@@ -41,7 +56,7 @@ class NumberFilterForm(BootstrapMixin, forms.Form):
     tag = TagFilterField(model)
 
 
-class NumberEditForm(BootstrapMixin, forms.ModelForm):
+class NumberEditForm(forms.ModelForm):
 
     number = forms.CharField(
         required=True,
@@ -64,7 +79,7 @@ class NumberEditForm(BootstrapMixin, forms.ModelForm):
         fields = ('number', 'tenant', 'region', 'description', 'provider', 'forward_to', 'tags')
 
 
-class NumberBulkEditForm(BootstrapMixin, AddRemoveTagsForm, BulkEditForm):
+class NumberBulkEditForm(AddRemoveTagsForm, BulkEditForm):
 
     pk = forms.ModelMultipleChoiceField(
         queryset=Number.objects.all(),
@@ -136,7 +151,7 @@ class NumberCSVForm(CSVModelForm):
         }
 
 
-class VoiceCircuitEditForm(BootstrapMixin, forms.ModelForm):
+class VoiceCircuitEditForm(forms.ModelForm):
 
     name = forms.CharField(
         required=True,
@@ -215,7 +230,7 @@ class VoiceCircuitEditForm(BootstrapMixin, forms.ModelForm):
         self.instance.assigned_object = self.cleaned_data.get('interface') or self.cleaned_data.get('vminterface')
 
 
-class VoiceCircuitFilterForm(BootstrapMixin, forms.Form):
+class VoiceCircuitFilterForm(forms.Form):
 
     model = VoiceCircuit
     q = forms.CharField(
@@ -249,7 +264,7 @@ class VoiceCircuitFilterForm(BootstrapMixin, forms.Form):
     tag = TagFilterField(model)
 
 
-class VoiceCircuitBulkEditForm(BootstrapMixin, AddRemoveTagsForm, BulkEditForm):
+class VoiceCircuitBulkEditForm(AddRemoveTagsForm, BulkEditForm):
 
     pk = forms.ModelMultipleChoiceField(
         queryset=VoiceCircuit.objects.all(),
