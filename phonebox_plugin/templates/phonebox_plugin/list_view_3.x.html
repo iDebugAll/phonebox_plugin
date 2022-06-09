@@ -9,11 +9,15 @@
 
 <div class="pull-right noprint">
 	{% if perms.phonebox_plugin.add_number %}
-		{% add_button 'plugins:phonebox_plugin:add_number' %}
+	  <a href="/plugins/phonebox/add_number/" type="button" class="btn btn-sm btn-success">
+		<i class="mdi mdi-plus-thick"></i> Add
+	  </a>
 	{% endif %}
-	{% if permissions.add and 'import' in action_buttons %}
-		{% import_button 'plugins:phonebox_plugin:import_numbers' %}
-	{% endif %}
+	{% if perms.phonebox_plugin.add_number %}
+	  <a href="/plugins/phonebox/import_numbers/" type="button" class="btn btn-sm btn-info">
+		<i class="mdi mdi-upload"></i> Import
+	  </a>
+    {% endif %}
 </div>
 
 {% endblock %}
@@ -30,7 +34,7 @@
 	<li class="nav-item" role="presentation">
 	<button class="nav-link" id="filters-form-tab" data-bs-toggle="tab" data-bs-target="#filters-form" type="button" role="tab" aria-controls="filters-form" aria-selected="false">
 		Filters
-		{% if filter_form %}{% badge filter_form.changed_data|length bg_class="primary" %}{% endif %}
+		{% if filter_form %}{% badge filter_form.changed_data|length %}{% endif %}
 	</button>
 	</li>
 </ul>

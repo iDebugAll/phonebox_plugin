@@ -34,7 +34,12 @@ class NumberView(generic.ObjectView):
 
 class NumberEditView(generic.ObjectEditView):
     queryset = Number.objects.all()
-    model_form = forms.NumberEditForm
+
+    if NETBOX_CURRENT_VERSION >= version.parse("3.2"):
+        form = forms.NumberEditForm
+    else:
+        model_form = forms.NumberEditForm
+
     if NETBOX_CURRENT_VERSION >= version.parse("3.0"):
         template_name = "phonebox_plugin/add_number_3.x.html"
     else:
@@ -87,7 +92,12 @@ class VoiceCircuitView(generic.ObjectView):
 
 class VoiceCircuitEditView(generic.ObjectEditView):
     queryset = VoiceCircuit.objects.all()
-    model_form = forms.VoiceCircuitEditForm
+    
+    if NETBOX_CURRENT_VERSION >= version.parse("3.2"):
+        form = forms.VoiceCircuitEditForm
+    else:
+        model_form = forms.VoiceCircuitEditForm
+
     if NETBOX_CURRENT_VERSION >= version.parse("3.0"):
         template_name = "phonebox_plugin/add_voice_circuit_3.x.html"
     else:
