@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load buttons %}
+
+{% block content %}
+<div class="pull-right noprint">
+	{% if perms.phonebox_plugin.pbx_add %}
+		{% add_button 'plugins:phonebox_plugin:pbx_add' %}
+	{% endif %}
+	{% if permissions.add and 'import' in action_buttons %}
+        {% import_button 'plugins:phonebox_plugin:pbx_import' %}
+    {% endif %}
+</div>
+<h1>{% block title %}PBX{% endblock %}</h1>
+<div class="row">
+	<div class="col-md-9">
+        {% include 'utilities/obj_table.html' with bulk_delete_url="plugins:phonebox_plugin:pbx_bulk_delete" bulk_edit_url="plugins:phonebox_plugin:pbx_bulk_edit" %}
+    </div>
+	<div class="col-md-3 noprint">
+		{% include 'inc/search_panel.html' %}
+	</div>
+</div>
+{% endblock %}

@@ -8,13 +8,13 @@
 {% block controls %}
 
 <div class="pull-right noprint">
-	{% if perms.phonebox_plugin.add_number %}
-	  <a href="/plugins/phonebox/add_number/" type="button" class="btn btn-sm btn-success">
+	{% if perms.phonebox_plugin.pbx_add %}
+	  <a href="{% url 'plugins:phonebox_plugin:pbx_add' %}" type="button" class="btn btn-sm btn-success">
 		<i class="mdi mdi-plus-thick"></i> Add
 	  </a>
 	{% endif %}
-	{% if perms.phonebox_plugin.add_number %}
-	  <a href="/plugins/phonebox/import_numbers/" type="button" class="btn btn-sm btn-info">
+	{% if perms.phonebox_plugin.pbx_import %}
+	  <a href="{% url 'plugins:phonebox_plugin:pbx_import' %}" type="button" class="btn btn-sm btn-info">
 		<i class="mdi mdi-upload"></i> Import
 	  </a>
     {% endif %}
@@ -27,8 +27,8 @@
 
 <ul class="nav nav-tabs px-3">
 	<li class="nav-item" role="presentation">
-	  <button class="nav-link active" id="numbers-tab" data-bs-toggle="tab" data-bs-target="#numbers" type="button" role="tab" aria-controls="numbers" aria-selected="true">
-		Numbers
+	  <button class="nav-link active" id="pbx-tab" data-bs-toggle="tab" data-bs-target="#pbx" type="button" role="tab" aria-controls="pbx" aria-selected="true">
+		PBX
 	  </button>
 	</li>
 	<li class="nav-item" role="presentation">
@@ -40,17 +40,17 @@
 </ul>
 
 <div class="tab-content">
-	<div class="tab-pane active" id="numbers" role="tabpanel" aria-labelledby="numbers-tab">
+	<div class="tab-pane active" id="pbx" role="tabpanel" aria-labelledby="pbx-tab">
 		
 		{# Applied filters #}
 		{% if filter_form %}
 		  {% applied_filters filter_form request.GET %}
 		{% endif %}
 		
-		<h2>{% block title %}Numbers{% endblock %}</h2>
+		<h2>{% block title %}PBX{% endblock %}</h2>
 		<div class="row">
 			<div class="col-md-12">
-				{% include 'phonebox_plugin/obj_table.html' with bulk_delete_url="plugins:phonebox_plugin:number_bulk_delete" bulk_edit_url="plugins:phonebox_plugin:number_bulk_edit" %}
+				{% include 'phonebox_plugin/obj_table.html' with bulk_delete_url="plugins:phonebox_plugin:pbx_bulk_delete" bulk_edit_url="plugins:phonebox_plugin:pbx_bulk_edit" %}
 			</div>
 		</div>
 	</div>

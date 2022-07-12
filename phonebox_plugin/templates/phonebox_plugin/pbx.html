@@ -6,14 +6,14 @@
     <div class="row noprint">
         <div class="col-sm-8 col-md-9">
             <ol class="breadcrumb">
-                <li><a href="{% url 'plugins:phonebox_plugin:voice_circuit_list' %}">Voice Circuits</a></li>
+                <li><a href="{% url 'plugins:phonebox_plugin:pbx_list' %}">PBX</a></li>
                 <li>{{ object }}</li>
             </ol>
         </div>
         <div class="col-sm-4 col-md-3">
-            <form action="{% url 'plugins:phonebox_plugin:voice_circuit_list' %}" method="get">
+            <form action="{% url 'plugins:phonebox_plugin:pbx_list' %}" method="get">
                 <div class="input-group">
-                    <input type="text" name="q" class="form-control" placeholder="Search Voice Circuits" />
+                    <input type="text" name="q" class="form-control" placeholder="Search PBX" />
                     <span class="input-group-btn">
                         <button type="submit" class="btn btn-primary">
                             <span class="mdi mdi-magnify" aria-hidden="true"></span>
@@ -24,13 +24,13 @@
         </div>
     </div>
     <div class="pull-right noprint">
-        {% if perms.phonebox_plugin.change_voicecircuit %}
-            <a href="{% url 'plugins:phonebox_plugin:voice_circuit_edit' pk=object.pk %}" class="btn btn-warning">
+        {% if perms.phonebox_plugin.pbx_change %}
+            <a href="{% url 'plugins:phonebox_plugin:pbx_edit' pk=object.pk %}" class="btn btn-warning">
                 <span class="mdi mdi-pencil" aria-hidden="true"></span> Edit
             </a>
         {% endif %}
-        {% if perms.phonebox_plugin.delete_voicecircuit %}
-            <a href="{% url 'plugins:phonebox_plugin:voice_circuit_delete' pk=object.pk %}" class="btn btn-danger">
+        {% if perms.phonebox_plugin.pbx_delete %}
+            <a href="{% url 'plugins:phonebox_plugin:pbx_delete' pk=object.pk %}" class="btn btn-danger">
                 <span class="mdi mdi-trash-can-outline" aria-hidden="true"></span> Delete
             </a>
         {% endif %}
@@ -38,7 +38,7 @@
     <h1>{% block title %}{{ object }}{% endblock %}</h1>
     <ul class="nav nav-tabs">
         <li role="presentation"{% if not active_tab %} class="active"{% endif %}>
-            <a href="{{ object.get_absolute_url }}">Voice Circuit</a>
+            <a href="{{ object.get_absolute_url }}">PBX</a>
         </li>
     </ul>
 {% endblock %}
@@ -48,12 +48,12 @@
 	<div class="col-md-4">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <strong>Voice Circuit</strong>
+                <strong>PBX</strong>
             </div>
             <table class="table table-hover panel-body attr-table">
                 <tr>
                     <td>Type</td>
-                    <td>{{ object.voice_circuit_type }}</td>
+                    <td>{{ object.pbx_type }}</td>
                 </tr>
                 <tr>
                     <th scope="row">Assignment</th>

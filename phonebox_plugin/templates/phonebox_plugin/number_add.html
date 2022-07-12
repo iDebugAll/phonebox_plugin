@@ -7,11 +7,18 @@
         <div class="panel-heading"><strong>Number</strong></div>
         <div class="panel-body">
             {% render_field form.number %}
+            {% render_field form.fio %}
+            {% render_field form.pbx %}
+            {% render_field form.tenantgroup %}
             {% render_field form.tenant %}
             {% render_field form.region %}
+            {% render_field form.site %}
             {% render_field form.provider %}
+            {% render_field form.device %}
+            {% render_field form.is_record %}
+            {% render_field form.access_cat %}
             {% render_field form.forward_to %}
-            {% render_field form.description %}
+            {% render_field form.comment %}
             {% render_field form.tags %}
         </div>
     </div>

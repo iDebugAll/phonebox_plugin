@@ -12,8 +12,26 @@ class VoiceCircuitTypeChoices(ChoiceSet):
         (ANALOG_VOICE_CIRCUIT, 'Analog Voice Circuit'),
     )
 
+class PBXTypeChoices(ChoiceSet):
+    VOIP_PBX = 'voip_pbx'
+    DIGITAL_PBX = 'digital_pbx'
+    ANALOG_PBX = 'analog_pbx'
+    CHOICES = (
+        (VOIP_PBX, 'VoIP PBX'),
+        (DIGITAL_PBX, 'Digital PBX'),
+        (ANALOG_PBX, 'Analog PBX'),
+    )
 
 VOICE_CIRCUIT_ASSIGNMENT_MODELS = Q(
     Q(app_label='dcim', model='interface') |
     Q(app_label='virtualization', model='vminterface')
+)
+
+PBX_ASSIGNMENT_MODELS = Q(
+    Q(app_label='dcim', model='interface') |
+    Q(app_label='virtualization', model='vminterface')
+)
+
+NUMBER_ASSIGNMENT_MODELS = Q(
+    Q(app_label='dcim', model='interface')
 )

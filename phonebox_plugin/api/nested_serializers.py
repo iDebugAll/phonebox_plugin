@@ -13,6 +13,4 @@ class NestedNumberSerializer(WritableNestedSerializer):
 
     class Meta:
         model = models.Number
-        fields = [
-            "id", "label", "number", "tenant",
-        ]
+        fields = ["id", "label", "number", "tenant"]

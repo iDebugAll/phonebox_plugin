@@ -3,11 +3,11 @@
 
 {% block content %}
 <div class="pull-right noprint">
-	{% if perms.phonebox_plugin.add_number %}
-		{% add_button 'plugins:phonebox_plugin:add_number' %}
+	{% if perms.phonebox_plugin.number_add %}
+		{% add_button 'plugins:phonebox_plugin:number_add' %}
 	{% endif %}
 	{% if permissions.add and 'import' in action_buttons %}
-        {% import_button 'plugins:phonebox_plugin:import_numbers' %}
+        {% import_button 'plugins:phonebox_plugin:number_import' %}
     {% endif %}
 </div>
 <h1>{% block title %}Numbers{% endblock %}</h1>

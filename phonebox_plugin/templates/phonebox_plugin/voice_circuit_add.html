@@ -2,7 +2,7 @@
 {% load static %}
 {% load form_helpers %}
 
-{% block head %}
+{% block header %}
     {{ block.super }}
     <script type="text/javascript">
         function ShowVCTypeRelatedDetails() {
@@ -34,6 +34,7 @@
         <div class="panel-body">
             {% render_field form.name %}
             {% render_field form.voice_circuit_type %}
+            {% render_field form.pbx %}
             {% render_field form.tenant %}
             {% render_field form.site %}
             {% render_field form.region %}
@@ -42,54 +43,29 @@
             {% render_field form.description %}
             {% render_field form.tags %}
         </div>
-        <div class="field-group my-5">
-            <div class="row mb-2">
-              <h5 class="offset-sm-3">Interface Assignment</h5>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Interface Assignment</strong>
             </div>
-            {% with vm_tab_active=form.initial.vminterface %}
-              <div class="row mb-2">
-                <div class="offset-sm-3">
-                  <ul class="nav nav-pills" role="tablist">
-                    <li role="presentation" class="nav-item">
-                        <button
-                            role="tab"
-                            type="button"
-                            id="device_tab"
-                            data-bs-toggle="tab"
-                            aria-controls="device"
-                            data-bs-target="#device"
-                            class="nav-link {% if not vm_tab_active %}active{% endif %}"
-                        >
-                            Device
-                        </button>
-                    </li>
-                    <li role="presentation" class="nav-item">
-                        <button
-                            role="tab"
-                            type="button"
-                            id="vm_tab"
-                            data-bs-toggle="tab"
-                            aria-controls="vm"
-                            data-bs-target="#vm"
-                            class="nav-link {% if vm_tab_active %}active{% endif %}"
-                        >
-                            Virtual Machine
-                        </button>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div class="tab-content p-0 border-0">
-                <div class="tab-pane {% if not vm_tab_active %}active{% endif %}" id="device" role="tabpanel" aria-labeled-by="device_tab">
-                  {% render_field form.device %}
-                  {% render_field form.interface %}
-                </div>
-                <div class="tab-pane {% if vm_tab_active %}active{% endif %}" id="vm" role="tabpanel" aria-labeled-by="vm_tab">
-                  {% render_field form.virtual_machine %}
-                  {% render_field form.vminterface %}
-                </div>
-              </div>
-            {% endwith %}
+            <div class="panel-body">
+                {% with vm_tab_active=form.initial.vminterface %}
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation"{% if not vm_tab_active %} class="active"{% endif %}><a href="#device" role="tab" data-toggle="tab">Device</a></li>
+                        <li role="presentation"{% if vm_tab_active %} class="active"{% endif %}><a href="#virtualmachine" role="tab" data-toggle="tab">Virtual Machine</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane{% if not vm_tab_active %} active{% endif %}" id="device">
+                            {% render_field form.device %}
+                            {% render_field form.interface %}
+                        </div>
+                        <div class="tab-pane{% if vm_tab_active %} active{% endif %}" id="virtualmachine">
+                            {% render_field form.virtual_machine %}
+                            {% render_field form.vminterface %}
+                        </div>
+                    </div>
+                {% endwith %}
+                {% render_field form.primary_for_parent %}
+            </div>
         </div>
         <div id="SIPTRunkDetails" class="panel panel-default">
             <div class="panel-heading">
