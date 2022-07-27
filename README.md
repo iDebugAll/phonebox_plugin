@@ -65,7 +65,7 @@ General installation steps and considerations follow the [official guidelines](h
 Assuming you use a Virtual Environment for Netbox:
 ```
 $ source /opt/netbox/venv/bin/activate
-(venv) $ pip3 install phonebox_plugin
+(venv) $ pip3 install phonebox-plugin
 ```
 
 ### Package Installation from Source Code
