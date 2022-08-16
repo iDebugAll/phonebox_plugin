@@ -1,11 +1,11 @@
 import django_filters
 from django.db.models import Q
-from circuits.models import Provider
-from dcim.models import Region, Site
-from tenancy.models import Tenant
-from .models import Number, VoiceCircuit
-from packaging import version
-from django.conf import settings
+from circuits.models  import Provider
+from dcim.models      import Region, Site, Location, Device
+from tenancy.models   import Tenant
+from .models          import Number, VoiceCircuit, PBX
+from packaging        import version
+from django.conf      import settings
 
 NETBOX_CURRENT_VERSION = version.parse(settings.VERSION)
 
@@ -14,7 +14,7 @@ if NETBOX_CURRENT_VERSION < version.parse("2.11.3"):
     from utilities.filters import TagFilter
 else:
     from netbox.filtersets import BaseFilterSet
-    from extras.filters import TagFilter
+    from extras.filters    import TagFilter
 
 
 class NumberFilterSet(BaseFilterSet):
@@ -29,12 +29,12 @@ class NumberFilterSet(BaseFilterSet):
         to_field_name='number',
         label='number',
     )
-    tenant = django_filters.ModelMultipleChoiceFilter(
-        queryset=Tenant.objects.all(),
-        field_name='tenant__id',
-        to_field_name='id',
-        label='Tenant (id)',
-    )
+#    tenant = django_filters.ModelMultipleChoiceFilter(
+#        queryset=Tenant.objects.all(),
+#        field_name='tenant__id',
+#        to_field_name='id',
+#        label='Tenant (id)',
+#    )
     region = django_filters.ModelMultipleChoiceFilter(
         queryset=Region.objects.all(),
         field_name='region__id',
@@ -45,13 +45,13 @@ class NumberFilterSet(BaseFilterSet):
         queryset=Provider.objects.all(),
         field_name='provider__id',
         to_field_name='id',
-        label='Region (id)',
+        label='Provider (id)',
     )
     forward_to = django_filters.ModelMultipleChoiceFilter(
         field_name='forward_to',
         queryset=Number.objects.all(),
         to_field_name='number',
-        label='forward_to',
+        label='Forward_to',
     )
     tag = TagFilter()
 
@@ -77,7 +77,7 @@ class VoiceCircuitFilterSet(BaseFilterSet):
         field_name='name',
         queryset=VoiceCircuit.objects.all(),
         to_field_name='name',
-        label='name',
+        label='Name',
     )
     tenant = django_filters.ModelMultipleChoiceFilter(
         queryset=Tenant.objects.all(),
@@ -107,6 +107,37 @@ class VoiceCircuitFilterSet(BaseFilterSet):
 
     class Meta():
         model = VoiceCircuit
+        fields = ('name',)
+
+    def search(self, queryset, name, value):
+        if not value.strip():
+            return queryset
+        return queryset.filter(
+            Q(name__icontains=value)
+        )
+
+class PbxTelephonyFilterSet(BaseFilterSet):
+
+    q = django_filters.CharFilter(
+        method='search',
+        label='Search',
+    )
+    name = django_filters.ModelMultipleChoiceFilter(
+        field_name='name',
+        queryset=PBX.objects.all(),
+        to_field_name='name',
+        label='Name',
+    )
+    region = django_filters.ModelMultipleChoiceFilter(
+        queryset=Region.objects.all(),
+        field_name='region__id',
+        to_field_name='id',
+        label='Region (id)',
+    )
+    tag = TagFilter()
+
+    class Meta():
+        model = PBX
         fields = ('name',)
 
     def search(self, queryset, name, value):

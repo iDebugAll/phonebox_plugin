@@ -3,11 +3,11 @@
 
 {% block content %}
 <div class="pull-right noprint">
-	{% if perms.phonebox_plugin.add_voicecircuit %}
-		{% add_button 'plugins:phonebox_plugin:add_voice_circuit' %}
+	{% if perms.phonebox_plugin.voice_circuit_add %}
+		{% add_button 'plugins:phonebox_plugin:voice_circuit_add' %}
 	{% endif %}
 	{% if permissions.add and 'import' in action_buttons %}
-        {% import_button 'plugins:phonebox_plugin:import_voice_circuits' %}
+        {% import_button 'plugins:phonebox_plugin:voice_circuits_import' %}
     {% endif %}
 </div>
 <h1>{% block title %}Voice Circuits{% endblock %}</h1>
