@@ -1,8 +1,6 @@
 from django import forms
-from utilities.forms import (
-    BootstrapMixin, DynamicModelMultipleChoiceField, DynamicModelChoiceField,
-    TagFilterField, BulkEditForm, CSVModelForm, CSVModelChoiceField
-)
+from django.conf import settings
+from packaging import version
 from tenancy.models import Tenant
 from dcim.models import Region, Site, Device, Interface
 from virtualization.models import VirtualMachine, VMInterface
@@ -11,6 +9,18 @@ from extras.models import Tag
 from .models import Number, VoiceCircuit
 from .choices import VoiceCircuitTypeChoices
 
+NETBOX_CURRENT_VERSION = version.parse(settings.VERSION)
+if NETBOX_CURRENT_VERSION < version.parse("3.5"):
+    from utilities.forms import (
+        BootstrapMixin, DynamicModelMultipleChoiceField, DynamicModelChoiceField,
+        TagFilterField, BulkEditForm, CSVModelForm, CSVModelChoiceField
+    )
+else:
+    from utilities.forms import BootstrapMixin, BulkEditForm, CSVModelForm
+    from utilities.forms.fields import (
+        DynamicModelMultipleChoiceField, DynamicModelChoiceField,
+        TagFilterField, CSVModelChoiceField
+    )
 
 class AddRemoveTagsForm(forms.Form):
 
@@ -53,7 +63,10 @@ class NumberFilterForm(forms.Form):
         required=False,
         null_option='None',
     )
-    tag = TagFilterField(model)
+    tags = DynamicModelMultipleChoiceField(
+        queryset=Tag.objects.all(),
+        required=False
+    )
 
 
 class NumberEditForm(forms.ModelForm):
