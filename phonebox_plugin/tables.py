@@ -20,10 +20,11 @@ class NumberTable(BaseTable):
     region = tables.LinkColumn()
     provider = tables.LinkColumn()
     forward_to = tables.LinkColumn()
+    tags = columns.TagColumn()
 
     class Meta(BaseTable.Meta):
         model = Number
-        fields = ('pk', 'number', 'tenant', 'region', 'description', 'provider', 'forward_to')
+        fields = ('pk', 'number', 'tenant', 'region', 'description', 'provider', 'forward_to', 'tags')
 
 
 class VoiceCircuitTable(BaseTable):
@@ -41,7 +42,8 @@ class VoiceCircuitTable(BaseTable):
     region = tables.LinkColumn()
     site = tables.LinkColumn()
     provider = tables.LinkColumn()
+    tags = columns.TagColumn()
 
     class Meta(BaseTable.Meta):
         model = VoiceCircuit
-        fields = ('pk', 'name', 'voice_device_or_vm', 'voice_circuit_type', 'tenant', 'region', 'site', 'provider')
+        fields = ('pk', 'name', 'voice_device_or_vm', 'voice_circuit_type', 'tenant', 'region', 'site', 'provider', 'tags')

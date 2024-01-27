@@ -53,11 +53,11 @@ class NumberFilterSet(BaseFilterSet):
         to_field_name='number',
         label='forward_to',
     )
-    tag = TagFilter()
+    tags = TagFilter(to_field_name='slug', field_name='tags__slug')
 
     class Meta():
         model = Number
-        fields = ('number',)
+        fields = ('number', 'tags')
 
     def search(self, queryset, number, value):
         if not value.strip():
