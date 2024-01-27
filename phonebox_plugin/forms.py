@@ -63,10 +63,7 @@ class NumberFilterForm(forms.Form):
         required=False,
         null_option='None',
     )
-    tags = DynamicModelMultipleChoiceField(
-        queryset=Tag.objects.all(),
-        required=False
-    )
+    tags = TagFilterField(model)
 
 
 class NumberEditForm(forms.ModelForm):
@@ -86,7 +83,7 @@ class NumberEditForm(forms.ModelForm):
         queryset=Tag.objects.all(),
         required=False
     )
-
+    
     class Meta:
         model = Number
         fields = ('number', 'tenant', 'region', 'description', 'provider', 'forward_to', 'tags')
@@ -274,7 +271,7 @@ class VoiceCircuitFilterForm(forms.Form):
         required=False,
         null_option='None',
     )
-    tag = TagFilterField(model)
+    tags = TagFilterField(model)
 
 
 class VoiceCircuitBulkEditForm(AddRemoveTagsForm, BulkEditForm):
