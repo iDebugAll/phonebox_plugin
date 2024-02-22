@@ -9,12 +9,12 @@
 
 <div class="pull-right noprint">
 	{% if perms.phonebox_plugin.add_number %}
-	  <a href="/plugins/phonebox/add_number/" type="button" class="btn btn-sm btn-success">
+	  <a href="{% url 'plugins:phonebox:add_number' %}" type="button" class="btn btn-sm btn-success">
 		<i class="mdi mdi-plus-thick"></i> Add
 	  </a>
 	{% endif %}
 	{% if perms.phonebox_plugin.add_number %}
-	  <a href="/plugins/phonebox/import_numbers/" type="button" class="btn btn-sm btn-info">
+	  <a href="{% url 'plugins:phonebox:import_numbers' %}" type="button" class="btn btn-sm btn-info">
 		<i class="mdi mdi-upload"></i> Import
 	  </a>
     {% endif %}
