@@ -1,0 +1,73 @@
+{% extends 'base/layout.html' %}
+{% load buttons %}
+{% load static %}
+{% load plugins %}
+{% load helpers %}
+
+
+{% block content %}
+
+<div class="container-fluid mt-2 d-print-none">
+	<div class="d-flex justify-content-between">
+
+	  <div>
+		<h2 class="page-title my-1">Numbers</h2>
+		
+	  </div>
+
+	  <div class="d-print-none">
+		
+<div class="btn-list">
+
+	{% if perms.phonebox_plugin.add_number %}
+	<a href="{% url 'plugins:phonebox_plugin:add_number' %}" type="button" class="btn btn-primary">
+	<i class="mdi mdi-plus-thick"></i> Add
+	</a>
+	{% endif %}
+	{% if perms.phonebox_plugin.add_number %}
+	<a href="{% url 'plugins:phonebox_plugin:import_numbers' %}" type="button" class="btn btn-cyan">
+	<i class="mdi mdi-upload"></i> Import
+	</a>
+	{% endif %}
+
+</div>
+	  </div>
+	</div>
+</div>
+
+
+<ul class="nav nav-tabs px-3 mt-3">
+	<li class="nav-item" role="presentation">
+	  <button class="nav-link active" id="numbers-tab" data-bs-toggle="tab" data-bs-target="#numbers" type="button" role="tab" aria-controls="numbers" aria-selected="true">
+		Numbers
+	  </button>
+	</li>
+	<li class="nav-item" role="presentation">
+	<button class="nav-link" id="filters-form-tab" data-bs-toggle="tab" data-bs-target="#filters-form" type="button" role="tab" aria-controls="filters-form" aria-selected="false">
+		Filters
+		{% if filter_form %}{% badge filter_form.changed_data|length %}{% endif %}
+	</button>
+	</li>
+</ul>
+
+<div class="tab-content">
+	<div class="tab-pane active" id="numbers" role="tabpanel" aria-labelledby="numbers-tab">
+		
+		{# Applied filters #}
+		{% if filter_form %}
+		  {% applied_filters model filter_form request.GET %}
+		{% endif %}
+
+		<div class="row">
+			<div class="col-md-12">
+				{% include 'phonebox_plugin/obj_table.html' with bulk_delete_url="plugins:phonebox_plugin:number_bulk_delete" bulk_edit_url="plugins:phonebox_plugin:number_bulk_edit" %}
+			</div>
+		</div>
+
+	</div>
+	<div class="tab-pane" id="filters-form" role="tabpanel" aria-labelledby="filters-form-tab">
+        {% include 'inc/filter_list.html' %}
+    </div>
+</div>
+
+{% endblock %}

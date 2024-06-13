@@ -12,11 +12,11 @@ from .choices import VoiceCircuitTypeChoices
 NETBOX_CURRENT_VERSION = version.parse(settings.VERSION)
 if NETBOX_CURRENT_VERSION < version.parse("3.5"):
     from utilities.forms import (
-        BootstrapMixin, DynamicModelMultipleChoiceField, DynamicModelChoiceField,
+        DynamicModelMultipleChoiceField, DynamicModelChoiceField,
         TagFilterField, BulkEditForm, CSVModelForm, CSVModelChoiceField
     )
 else:
-    from utilities.forms import BootstrapMixin, BulkEditForm, CSVModelForm
+    from utilities.forms import BulkEditForm, CSVModelForm
     from utilities.forms.fields import (
         DynamicModelMultipleChoiceField, DynamicModelChoiceField,
         TagFilterField, CSVModelChoiceField
