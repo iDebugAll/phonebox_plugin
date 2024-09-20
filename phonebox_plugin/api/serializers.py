@@ -3,14 +3,11 @@ from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from ..models import Number, VoiceCircuit
-from tenancy.api.nested_serializers import NestedTenantSerializer
-from dcim.api.nested_serializers import NestedRegionSerializer, NestedSiteSerializer
-from circuits.api.nested_serializers import NestedProviderSerializer
+from tenancy.api.serializers import TenantSerializer
+from dcim.api.serializers import RegionSerializer, SiteSerializer
+from circuits.api.serializers import ProviderSerializer
 from extras.api.serializers import TagSerializer
-from .nested_serializers import NestedNumberSerializer
-from extras.api.nested_serializers import NestedTagSerializer
 from netbox.api.fields import ContentTypeField
-from netbox.constants import NESTED_SERIALIZER_PREFIX
 from utilities.api import get_serializer_for_model
 from ..choices import VOICE_CIRCUIT_ASSIGNMENT_MODELS
 
@@ -18,11 +15,11 @@ from ..choices import VOICE_CIRCUIT_ASSIGNMENT_MODELS
 class NumberSerializer(TagSerializer, serializers.ModelSerializer):
 
     label = serializers.CharField(source='number', read_only=True)
-    tenant = NestedTenantSerializer(required=True, allow_null=False)
-    region = NestedRegionSerializer(required=False, allow_null=True)
-    provider = NestedProviderSerializer(required=False, allow_null=True)
-    forward_to = NestedNumberSerializer(required=False, allow_null=True)
-    tags = NestedTagSerializer(many=True, required=False)
+    tenant = TenantSerializer(required=True, allow_null=False, nested=True)
+    region = RegionSerializer(required=False, allow_null=True, nested=True)
+    provider = ProviderSerializer(required=False, allow_null=True, nested=True)
+    forward_to = serializers.PrimaryKeyRelatedField(queryset=Number.objects.all(), required=False, allow_null=True)
+    tags = TagSerializer(many=True, required=False, nested=True)
 
     class Meta:
         model = Number
@@ -34,23 +31,23 @@ class NumberSerializer(TagSerializer, serializers.ModelSerializer):
 class VoiceCircuitSerializer(TagSerializer, serializers.ModelSerializer):
 
     label = serializers.CharField(source='voice_circuit', read_only=True)
-    tenant = NestedTenantSerializer(required=True, allow_null=False)
-    region = NestedRegionSerializer(required=False, allow_null=True)
-    site = NestedSiteSerializer(required=False, allow_null=True)
-    provider = NestedProviderSerializer(required=False, allow_null=True)
+    tenant = TenantSerializer(required=True, allow_null=False, nested=True)
+    region = RegionSerializer(required=False, allow_null=True, nested=True)
+    site = SiteSerializer(required=False, allow_null=True, nested=True)
+    provider = ProviderSerializer(required=False, allow_null=True, nested=True)
     assigned_object_type = ContentTypeField(
         queryset=ContentType.objects.filter(VOICE_CIRCUIT_ASSIGNMENT_MODELS),
         required=True,
         allow_null=False
     )
     assigned_object = serializers.SerializerMethodField(read_only=True)
-    tags = NestedTagSerializer(many=True, required=False)
+    tags = TagSerializer(many=True, required=False, nested=True)
 
     @extend_schema_field(serializers.JSONField(allow_null=True))
     def get_assigned_object(self, obj):
         if obj.assigned_object is None:
             return None
-        serializer = get_serializer_for_model(obj.assigned_object, prefix=NESTED_SERIALIZER_PREFIX)
+        serializer = get_serializer_for_model(obj.assigned_object)
         context = {'request': self.context['request']}
         return serializer(obj.assigned_object, context=context).data
 
