@@ -1,4 +1,5 @@
 {% extends 'generic/object.html' %}
+{% load static %}
 
 {% block content %}
 <div class="row">
@@ -7,7 +8,23 @@
             <h5 class="card-header">
                 General Information
             </h5>
+
             <table class="table table-hover panel-body attr-table">
+                <tr>
+                    <td>Type</td>
+                    <td>{{ object.voice_circuit_type }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Assignment</th>
+                    <td>
+                        {% if object.assigned_object %}
+                            <a href="{{ object.assigned_object.parent_object.get_absolute_url }}">{{ object.assigned_object.parent_object }}</a> /
+                            <a href="{{ object.assigned_object.get_absolute_url }}">{{ object.assigned_object }}
+                        {% else %}
+                            <span class="text-muted">&mdash;</span>
+                        {% endif %}
+                    </td>
+                </tr>
                 <tr>
                     <td>Tenant</td>
                     <td>
@@ -34,7 +51,7 @@
                 <tr>
                     <td>Site</td>
                     <td>
-                        {% if object.site %}
+                        {% if object.forward_to %}
                             <a href="{{ object.site.get_absolute_url }}">{{ object.site }}</a>
                         {% else %}
                             <span class="text-muted">None</span>
@@ -52,14 +69,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Forward To</td>
-                    <td>
-                        {% if object.forward_to %}
-                            <a href="{{ object.forward_to.get_absolute_url }}">{{ object.forward_to }}</a>
-                        {% else %}
-                            <span class="text-muted">None</span>
-                        {% endif %}
-                    </td>
+                    <td>Provider Circuit ID</td>
+                    <td>{{ object.provider_ciruit_id }}</td>
                 </tr>
                 <tr>
                     <td>Description</td>
@@ -69,9 +80,52 @@
         </div>
         {% include 'inc/panels/custom_fields.html' %}
     </div>
+    {% if object.voice_circuit_type == "sip_trunk" %}
+        <div class="col col-md-6">
+            <div class="card">
+                <h5 class="card-header">
+                    SIP Trunk Details
+                </h5>
+                <div class="card-body">
+                    <table class="table table-hover panel-body attr-table">
+                        <tr>
+                            <td>Source</td>
+                            <td>{{ object.sip_source }}</td>
+                        </tr>
+                        <tr>
+                            <td>Target</td>
+                            <td>{{ object.sip_target }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {% if object.voice_circuit_type == "digital_voice_circuit" %}
+        <div class="col col-md-6">
+            <div class="card">
+                <h5 class="card-header">
+                    Digital Voice Circuit Details
+                </h5>
+                <div class="card-body">
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {% if object.voice_circuit_type == "analog_voice_circuit" %}
+        <div class="col col-md-6">
+            <div class="card">
+                <h5 class="card-header">
+                    Analog Voice Circuit Details
+                </h5>
+                <div class="card-body">
+                </div>
+            </div>
+        </div>
+    {% endif %}
     <div class="col col-md-6">
         {% include 'inc/panels/tags.html' %}
     </div>
 </div>
 
-{% endblock content%}
+{% endblock content %}

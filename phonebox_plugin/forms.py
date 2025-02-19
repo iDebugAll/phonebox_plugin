@@ -9,18 +9,11 @@ from extras.models import Tag
 from .models import Number, VoiceCircuit
 from .choices import VoiceCircuitTypeChoices
 
-NETBOX_CURRENT_VERSION = version.parse(settings.VERSION)
-if NETBOX_CURRENT_VERSION < version.parse("3.5"):
-    from utilities.forms import (
-        DynamicModelMultipleChoiceField, DynamicModelChoiceField,
-        TagFilterField, BulkEditForm, CSVModelForm, CSVModelChoiceField
-    )
-else:
-    from utilities.forms import BulkEditForm, CSVModelForm
-    from utilities.forms.fields import (
-        DynamicModelMultipleChoiceField, DynamicModelChoiceField,
-        TagFilterField, CSVModelChoiceField
-    )
+from utilities.forms import BulkEditForm, CSVModelForm
+from utilities.forms.fields import (
+    DynamicModelMultipleChoiceField, DynamicModelChoiceField,
+    TagFilterField, CSVModelChoiceField
+)
 
 class AddRemoveTagsForm(forms.Form):
 
@@ -57,6 +50,12 @@ class NumberFilterForm(forms.Form):
         required=False,
         null_option='None',
     )
+    site = DynamicModelMultipleChoiceField(
+        queryset=Site.objects.all(),
+        to_field_name='id',
+        required=False,
+        null_option='None',
+    )
     provider = DynamicModelMultipleChoiceField(
         queryset=Provider.objects.all(),
         to_field_name='id',
@@ -86,7 +85,7 @@ class NumberEditForm(forms.ModelForm):
     
     class Meta:
         model = Number
-        fields = ('number', 'tenant', 'region', 'description', 'provider', 'forward_to', 'tags')
+        fields = ('number', 'tenant', 'site', 'region', 'description', 'provider', 'forward_to', 'tags')
 
 
 class NumberBulkEditForm(AddRemoveTagsForm, BulkEditForm):
@@ -107,6 +106,13 @@ class NumberBulkEditForm(AddRemoveTagsForm, BulkEditForm):
         required=False,
         null_option='None',
     )
+    site = DynamicModelChoiceField(
+        queryset=Site.objects.all(),
+        to_field_name='id',
+        required=False,
+        null_option='None',
+    )
+
     provider = DynamicModelChoiceField(
         queryset=Provider.objects.all(),
         to_field_name='id',
@@ -125,7 +131,7 @@ class NumberBulkEditForm(AddRemoveTagsForm, BulkEditForm):
     )
 
     class Meta:
-        nullable_fields = ('region', 'provider', 'forward_to', 'description')
+        nullable_fields = ('region', 'site', 'provider', 'forward_to', 'description')
 
 
 class NumberCSVForm(CSVModelForm):
@@ -146,6 +152,12 @@ class NumberCSVForm(CSVModelForm):
         required=False,
         to_field_name='name',
         help_text='Assigned region'
+    )
+    site = CSVModelChoiceField(
+        queryset=Site.objects.all(),
+        required=False,
+        to_field_name='name',
+        help_text='Assigned site'
     )
     forward_to = CSVModelChoiceField(
         queryset=Number.objects.all(),
